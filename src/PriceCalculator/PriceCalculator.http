@@ -1,4 +1,4 @@
-@PriceCalculator_HostAddress = http://cliffmclane:2000
+@PriceCalculator_HostAddress = http://pricecalculator:8081
 
 GET {{PriceCalculator_HostAddress}}/calculate/
 Accept: application/json
