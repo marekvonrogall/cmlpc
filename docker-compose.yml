@@ -1,4 +1,5 @@
 services:
+
   # CalculationService
   pricecalculator:
     build:
@@ -9,10 +10,18 @@ services:
 
   # NGINX API Gateway
   nginx:
-    image: nginx:alpine-slim
+    build:
+      context: ./src/nginx
+    image: ghcr.io/${IMAGE_NAME}/cmlnginx:latest
     ports:
       - "8080:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - pricecalculator
+
+  # OSRM (Open Source Routing Machine)
+  osrm:
+    build:
+      context: ./src/OSRM
+    image: ghcr.io/${IMAGE_NAME}/cmlosrm:latest
+    ports:
+    - "5000:5000"
