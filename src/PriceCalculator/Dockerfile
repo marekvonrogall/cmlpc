@@ -11,6 +11,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
 COPY --from=build /out .
 
+COPY ./data /app/data
+
 EXPOSE 80
 
 ENTRYPOINT ["dotnet", "PriceCalculator.dll"]

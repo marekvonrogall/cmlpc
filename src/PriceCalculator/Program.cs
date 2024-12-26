@@ -1,10 +1,12 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddHttpClient();
 builder.Services.AddOpenApi();
+
+builder.Services.AddSingleton(new GeocodeService("/app/data/plz_geocoord.csv"));
+//https://github.com/WZBSocialScienceCenter/plz_geocoord
 
 builder.Services.AddCors(options =>
 {

@@ -24,4 +24,4 @@ services:
       context: ./src/OSRM
     image: ghcr.io/${IMAGE_NAME}/cmlosrm:latest
     ports:
-    - "5000:5000"
+    - "8082:5000"
