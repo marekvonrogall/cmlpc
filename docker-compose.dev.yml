@@ -4,7 +4,7 @@ services:
   pricecalculator:
     build:
       context: ./src/PriceCalculator
-    image: ghcr.io/${IMAGE_NAME}/cmlpc:latest
+    #image: ghcr.io/${IMAGE_NAME}/cmlpc:latest
     ports:
       - "8081:80"
     volumes:
@@ -14,7 +14,7 @@ services:
   nginx:
     build:
       context: ./src/nginx
-    image: ghcr.io/${IMAGE_NAME}/cmlnginx:latest
+    #image: ghcr.io/${IMAGE_NAME}/cmlnginx:latest
     ports:
       - "8080:80"
     depends_on:
@@ -23,17 +23,14 @@ services:
 
   # OSRM (Open Source Routing Machine)
   osrm:
-    build:
-      context: ./src/OSRM
-    image: ghcr.io/${IMAGE_NAME}/cmlosrm:latest
+    image: ghcr.io/marekvonrogall/cmlpc/cmlosrm:latest
     ports:
-    - "8082:5000"
+      - "8082:5000"
 
-    # ADMIN PANEL
+  # Admin Panel
   admin:
     build:
       context: ./src/Admin
-    image: ghcr.io/${IMAGE_NAME}/cmladmin:latest
     ports:
       - "8083:8083"
     depends_on:

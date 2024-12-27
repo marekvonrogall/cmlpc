@@ -1,0 +1,98 @@
+{
+    "priceBase_3hours": {
+        "value": 2500,
+        "displayName": "Preis für 3 Stunden"
+    },
+    "priceBase_5hours": {
+        "value": 1800,
+        "displayName": "Preis für 5 Stunden"
+    },
+    "pricePerKm_Bus": {
+        "value": 2,
+        "displayName": "Preis pro Kilometer (Cliff)"
+    },
+    "pricePerKm_Disco": {
+        "value": 1.3,
+        "displayName": "Preis pro Kilometer (Kugel)"
+    },
+    "pricePerKm_Kaleido": {
+        "value": 1.3,
+        "displayName": "Preis pro Kilometer (Kaleidoskop)"
+    },
+    "pricePerHour_1Employee": {
+        "value": 270,
+        "displayName": "Preis pro Stunde (1 Mitarbeiter)"
+    },
+    "pricePerHour_2Employees": {
+        "value": 200,
+        "displayName": "Preis pro Stunde (2 Mitarbeiter)"
+    },
+    "pricePerHour_Standby": {
+        "value": 150,
+        "displayName": "Preis pro Stunde (Standby)"
+    },
+    "pricePerHour_FeatureXXLPrint": {
+        "value": 70,
+        "displayName": "Preis pro Stunde (Feature XXL Print)"
+    },
+    "pricePerNight_Hotel1Employee": {
+        "value": 125,
+        "displayName": "Preis pro Nacht (1 Mitarbeiter)"
+    },
+    "pricePerNight_Hotel2Employees": {
+        "value": 250,
+        "displayName": "Preis pro Nacht (2 Mitarbeiter)"
+    },
+    "routeCalculation_MaxRadiusFor3HourEvent": {
+        "value": 200,
+        "displayName": "Maximale Entfernung für 3-Stunden-Event (km)"
+    },
+    "routeCalculation_MinKmForAdditionalHotelCost": {
+        "value": 150,
+        "displayName": "Zusätzliche Hotelkosten ab Entfernung (km)"
+    },
+    "routeCalculation_StartPointLat": {
+        "value": 50.697864,
+        "displayName": "Startpunkt Breitengrad"
+    },
+    "routeCalculation_StartPointLon": {
+        "value": 7.018537,
+        "displayName": "Startpunkt Längengrad"
+    },
+    "routeCalculation_AdditionalKmInPercent": {
+        "value": 7,
+        "displayName": "Kilometeraufschlag in Prozent"
+    },
+    "timeInHours_AufbauBus": {
+        "value": 1.5,
+        "displayName": "Aufbauzeit Cliff (in Stunden)"
+    },
+    "timeInHours_AufbauDisco": {
+        "value": 3,
+        "displayName": "Aufbauzeit Kugel (in Stunden)"
+    },
+    "timeInHours_AufbauKaleido": {
+        "value": 2,
+        "displayName": "Aufbauzeit Kaleidoskop (in Stunden)"
+    },
+    "timeInHours_AbbauBus": {
+        "value": 1,
+        "displayName": "Abbauzeit Cliff (in Stunden)"
+    },
+    "timeInHours_AbbauDisco": {
+        "value": 2,
+        "displayName": "Abbauzeit Kugel (in Stunden)"
+    },
+    "timeInHours_AbbauKaleido": {
+        "value": 1.5,
+        "displayName": "Abbauzeit Kaleidoskop (in Stunden)"
+    },
+    "saleAmountInPercent_RightNow": {
+        "value": 0,
+        "displayName": "Rabatt (Aktuell)"
+    },
+    "saleAmountInPercent_OffSeason": {
+        "value": 15,
+        "displayName": "Rabatt (Nebensaison)"
+    }
+}
