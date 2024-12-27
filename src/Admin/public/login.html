@@ -1,42 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-
-    <div class="form-container" id="form-container">
+    <link rel="stylesheet" href="./style_login.css" />
+  </head>
+  <body>
+    <div class="form-container">
+      <div class="form-box">
         <div class="header">
-            <h1>cmlpc - login</h1>
-            <img class="login-image" src="./images/Logo_CliffMcLane_subline.png" alt="Logo">
+          <img
+            class="login-image"
+            src="./images/Logo_CliffMcLane_subline_white.png"
+            alt="Logo"
+          />
         </div>
         <form method="POST" action="/login">
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required />
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required />
-            </div>
-            <div class="submit-group">
-                <button type="submit">Login</button>
-            </div>
+          <div class="form-group">
+            <label for="username">Benutzername:</label>
+            <input type="text" id="username" name="username" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Passwort:</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+          <div class="submit-group">
+            <button type="submit">Anmelden</button>
+          </div>
         </form>
-        
-        <div id="error-message" style="color: red; display: none;">
-            Invalid credentials. Please try again.
+
+        <div id="error-message" class="error-message">
+          Ungültige Eingaben. Bitte versuchen Sie es erneut.
         </div>
+      </div>
     </div>
 
     <script>
-        if (window.location.search.includes("loginFailed=true")) {
-            document.getElementById("error-message").style.display = "block";
-        }
+      if (window.location.search.includes("loginFailed=true")) {
+        document.getElementById("error-message").style.display = "block";
+      }
     </script>
-
-</body>
+  </body>
 </html>

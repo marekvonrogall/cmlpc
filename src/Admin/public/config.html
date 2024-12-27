@@ -1,61 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Configuration</title>
-</head>
-<body>
-    <h1>Configuration</h1>
-    <form id="config-form">
-    </form>
-    <button onclick="saveConfig()">Save Changes</button>
+    <link rel="stylesheet" href="./../style_config.css" />
+  </head>
+  <body>
+    <div class="config-container">
+      <div class="config-header">
+        <h1>CMLPC - Konfiguration</h1>
+      </div>
+      <form id="config-form"></form>
+      <button class="save-btn" onclick="saveConfig()">Save Changes</button>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+      <div id="error-message" style="color: red"></div>
+    </div>
 
-    <script> // BROKEN
-        fetch("/config")
-            .then(response => response.json())
-            .then(data => {
-                const form = document.getElementById("config-form");
-                Object.keys(data).forEach(key => {
-                    const item = data[key];
+    <script>
+      const BASE_PATH = "/admin";
 
-                    const div = document.createElement("div");
+      fetch(`${BASE_PATH}/api/config`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to fetch configuration.");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          const form = document.getElementById("config-form");
 
-                    const label = document.createElement("label");
-                    label.textContent = item.displayName;
+          Object.keys(data).forEach((groupName) => {
+            const group = data[groupName];
+            const groupContainer = document.createElement("div");
 
-                    const input = document.createElement("input");
-                    input.type = "number";
-                    input.value = item.value;
-                    input.id = key;
-                    input.name = key;
+            const groupTitle = document.createElement("h2");
+            groupTitle.textContent = groupName;
+            groupContainer.appendChild(groupTitle);
 
-                    div.appendChild(label);
-                    div.appendChild(input);
-                    form.appendChild(div);
-                });
+            Object.keys(group).forEach((key) => {
+              const item = group[key];
+
+              const div = document.createElement("div");
+              div.classList.add("form-group");
+
+              const label = document.createElement("label");
+              label.textContent = item.displayName;
+              label.setAttribute("for", key);
+
+              const input = document.createElement("input");
+              input.type = "number";
+              input.value = item.value;
+              input.id = key;
+              input.name = `${groupName}.${key}`;
+              input.step = "any";
+
+              div.appendChild(label);
+              div.appendChild(input);
+              groupContainer.appendChild(div);
             });
 
-        function saveConfig() {
-            const form = document.getElementById("config-form");
-            const formData = new FormData(form);
-            const updatedConfig = {};
+            form.appendChild(groupContainer);
+            form.appendChild(document.createElement("hr"));
+          });
+        })
+        .catch((error) =>
+          alert("Error loading configuration: " + error.message)
+        );
 
-            formData.forEach((value, key) => {
-                updatedConfig[key] = { value: parseFloat(value) };
-            });
+      function saveConfig() {
+        const form = document.getElementById("config-form");
+        const updatedConfig = {};
+        let isValid = true;
+        let errorMessage = "";
 
-            fetch("/save-config", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(updatedConfig)
-            })
-            .then(response => response.text())
-            .then(data => alert(data))
-            .catch(error => alert("Error saving config: " + error));
+        Array.from(form.elements).forEach((element) => {
+          if (element.type === "number") {
+            const value = element.value.trim();
+
+            if (!value || isNaN(value)) {
+              isValid = false;
+              errorMessage = "Please ensure all values are valid numbers.";
+              element.style.borderColor = "red";
+            } else {
+              const [groupName, configKey] = element.name.split(".");
+              if (!updatedConfig[groupName]) {
+                updatedConfig[groupName] = {};
+              }
+              updatedConfig[groupName][configKey] = {
+                value: parseFloat(value),
+              };
+              element.style.borderColor = "";
+            }
+          }
+        });
+
+        if (!isValid) {
+          document.getElementById("error-message").textContent = errorMessage;
+          return;
         }
+
+        console.log(JSON.stringify(updatedConfig));
+
+        fetch(`${BASE_PATH}/save-config`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedConfig),
+        })
+          .then((response) => {
+            if (response.ok) {
+              alert("Configuration saved successfully.");
+            } else {
+              alert("Error saving configuration.");
+            }
+          })
+          .catch((error) => {
+            alert("Error saving configuration: " + error.message);
+          });
+      }
+
+      function logout() {
+        window.location.href = `${BASE_PATH}/logout`;
+      }
     </script>
-</body>
+  </body>
 </html>
