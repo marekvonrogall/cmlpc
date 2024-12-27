@@ -33,6 +33,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y docker-compose
           
+      - name: Set Timeout for Docker Push
+        run: |
+          export DOCKER_CLIENT_TIMEOUT=800
+          export COMPOSE_HTTP_TIMEOUT=800
+          
       - name: Build Docker Image
         run: |
           docker-compose -f docker-compose.yml build
