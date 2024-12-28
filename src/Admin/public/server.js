@@ -88,7 +88,7 @@ app.post(fullPath("/save-config"), authenticate, (req, res) => {
         const group = updatedConfig[groupName];
         Object.keys(group).forEach((key) => {
           if (currentConfig[groupName] && currentConfig[groupName][key]) {
-            currentConfig[groupName][key].value = group[key].value;
+            currentConfig[groupName][key].Value = group[key].value;
           }
         });
       });
@@ -97,6 +97,7 @@ app.post(fullPath("/save-config"), authenticate, (req, res) => {
         if (err) {
           return res.status(500).json({ error: "Error saving config file" });
         }
+
         res.json({ success: true });
       });
 

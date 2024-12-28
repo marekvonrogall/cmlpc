@@ -45,15 +45,13 @@
               div.classList.add("form-group");
 
               const label = document.createElement("label");
-              label.textContent = item.displayName;
+              label.textContent = item.DisplayName;
               label.setAttribute("for", key);
 
               const input = document.createElement("input");
-              input.type = "number";
-              input.value = item.value;
+              input.value = item.Value;
               input.id = key;
               input.name = `${groupName}.${key}`;
-              input.step = "any";
 
               div.appendChild(label);
               div.appendChild(input);
@@ -71,36 +69,19 @@
       function saveConfig() {
         const form = document.getElementById("config-form");
         const updatedConfig = {};
-        let isValid = true;
-        let errorMessage = "";
 
         Array.from(form.elements).forEach((element) => {
-          if (element.type === "number") {
+          if (element.type !== "button" && element.value.trim() !== "") {
             const value = element.value.trim();
-
-            if (!value || isNaN(value)) {
-              isValid = false;
-              errorMessage = "Please ensure all values are valid numbers.";
-              element.style.borderColor = "red";
-            } else {
-              const [groupName, configKey] = element.name.split(".");
-              if (!updatedConfig[groupName]) {
-                updatedConfig[groupName] = {};
-              }
-              updatedConfig[groupName][configKey] = {
-                value: parseFloat(value),
-              };
-              element.style.borderColor = "";
+            const [groupName, configKey] = element.name.split(".");
+            if (!updatedConfig[groupName]) {
+              updatedConfig[groupName] = {};
             }
+            updatedConfig[groupName][configKey] = {
+              value: isNaN(value) ? value : parseFloat(value),
+            };
           }
         });
-
-        if (!isValid) {
-          document.getElementById("error-message").textContent = errorMessage;
-          return;
-        }
-
-        console.log(JSON.stringify(updatedConfig));
 
         fetch(`${BASE_PATH}/save-config`, {
           method: "POST",

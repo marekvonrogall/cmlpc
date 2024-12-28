@@ -2,63 +2,51 @@
   "Grundpreise": {
     "PriceBase_3hours": {
       "Value": 1800,
-      "DisplayName": "Preis für 3 Stunden"
+      "DisplayName": "Fixpreis für ein 3 Stunden Event (zzgl. MwSt.) in €."
     },
     "PriceBase_5hours": {
       "Value": 2500,
-      "DisplayName": "Preis für 5 Stunden"
+      "DisplayName": "Fixpreis für ein 5 Stunden Event (zzgl. MwSt.) in €."
+    },
+    "PriceBase_8hours": {
+      "Value": 3300,
+      "DisplayName": "Fixpreis für ein 8 Stunden Event (zzgl. MwSt.) in €."
     }
   },
   "Kilometerpreise": {
     "PricePerKm_Bus": {
       "Value": 2,
-      "DisplayName": "Preis pro Kilometer (Cliff)"
+      "DisplayName": "Preis pro Kilometer Rollendes Fotozimmer (zzgl. MwSt.) in €."
     },
     "PricePerKm_Disco": {
       "Value": 1.3,
-      "DisplayName": "Preis pro Kilometer (Kugel)"
+      "DisplayName": "Preis pro Kilometer Foto-Discokugel (zzgl. MwSt.) in €."
     },
     "PricePerKm_Kaleido": {
       "Value": 1.3,
-      "DisplayName": "Preis pro Kilometer (Kaleidoskop)"
+      "DisplayName": "Preis pro Kilometer Video-Kaleidoskop (zzgl. MwSt.) in €."
     }
   },
   "Mitarbeiterkosten": {
-    "PricePerHour_1Employee": {
-      "Value": 270,
-      "DisplayName": "Preis pro Stunde (1 Mitarbeiter)"
-    },
-    "PricePerHour_2Employees": {
-      "Value": 200,
-      "DisplayName": "Preis pro Stunde (2 Mitarbeiter)"
-    },
-    "PricePerHour_Standby": {
-      "Value": 150,
-      "DisplayName": "Preis pro Stunde (Standby)"
-    },
-    "PricePerNight_Hotel1Employee": {
-      "Value": 125,
-      "DisplayName": "Preis pro Nacht (1 Mitarbeiter)"
-    },
-    "PricePerNight_Hotel2Employees": {
+    "PricePerNight_Hotel": {
       "Value": 250,
-      "DisplayName": "Preis pro Nacht (2 Mitarbeiter)"
+      "DisplayName": "Übernachtungspauschale (zzgl. MwSt.) in €."
     }
   },
-  "Featurekosten": {
+  "Optionen": {
     "PricePerHour_FeatureXXLPrint": {
       "Value": 70,
-      "DisplayName": "Preis pro Stunde (Feature XXL Print)"
+      "DisplayName": "XXL-Druck: Preis pro Stunde (zzgl. MwSt.) in €."
     }
   },
   "Entfernungseinstellungen": {
     "RouteCalculation_MaxRadiusFor3HourEvent": {
       "Value": 200,
-      "DisplayName": "Maximale Entfernung für 3-Stunden-Event (km)"
+      "DisplayName": "Maximale Entfernung für 3-Stunden-Events (Einfache Strecke in km)"
     },
     "RouteCalculation_MinKmForAdditionalHotelCost": {
       "Value": 150,
-      "DisplayName": "Inkrafttreten der Hotelkosten ab (km)"
+      "DisplayName": "Übernachtungspauschale berechnen ab (Einfache Strecke in km)"
     }
   },
   "Routen-Kalkulierung": {
@@ -78,39 +66,69 @@
   "Aufbauzeiten": {
     "TimeInHours_AufbauBus": {
       "Value": 1.5,
-      "DisplayName": "Aufbauzeit Cliff (in Stunden)"
+      "DisplayName": "Aufbauzeit Rollendes Fotozimmer (in Stunden)"
     },
     "TimeInHours_AufbauDisco": {
       "Value": 3,
-      "DisplayName": "Aufbauzeit Kugel (in Stunden)"
+      "DisplayName": "Aufbauzeit Foto-Discokugel (in Stunden)"
     },
     "TimeInHours_AufbauKaleido": {
       "Value": 2,
-      "DisplayName": "Aufbauzeit Kaleidoskop (in Stunden)"
+      "DisplayName": "Aufbauzeit Video-Kaleidoskop (in Stunden)"
     }
   },
   "Abbauzeiten": {
     "TimeInHours_AbbauBus": {
       "Value": 1,
-      "DisplayName": "Abbauzeit Cliff (in Stunden)"
+      "DisplayName": "Abbauzeit Rollendes Fotozimmer (in Stunden)"
     },
     "TimeInHours_AbbauDisco": {
       "Value": 2,
-      "DisplayName": "Abbauzeit Kugel (in Stunden)"
+      "DisplayName": "Abbauzeit Foto-Discokugel (in Stunden)"
     },
     "TimeInHours_AbbauKaleido": {
       "Value": 1.5,
-      "DisplayName": "Abbauzeit Kaleidoskop (in Stunden)"
+      "DisplayName": "Abbauzeit Video-Kaleidoskop (in Stunden)"
     }
   },
   "Rabatte": {
-    "SaleAmountInPercent_RightNow": {
-      "Value": 0,
-      "DisplayName": "Rabatt (Aktuell)"
+    "SaleName_BookingSale": {
+      "Value": "Spring Sale (Frühbucherrabatt)",
+      "DisplayName": "Name Frühbucherrabatt"
     },
-    "SaleAmountInPercent_OffSeason": {
+    "SaleAmountInPercent_BookingSale": {
+      "Value": 5,
+      "DisplayName": "Frühbucherrabatt in %"
+    },
+    "SaleDateStart_BookingSale": {
+      "Value": "01.01.",
+      "DisplayName": "Startdatum Frühbucherrabatt (Format 01.01.)"
+    },
+    "SaleDateEnd_BookingSale": {
+      "Value": "31.03.",
+      "DisplayName": "Enddatum Frühbucherrabatt (Format 01.01.)"
+    },
+    "SaleName_EventSale": {
+      "Value": "Offseason Sale",
+      "DisplayName": "Name eventbezogener Rabatt"
+    },
+    "SaleAmountInPercent_EventSale": {
       "Value": 15,
-      "DisplayName": "Rabatt Nebensaison"
+      "DisplayName": "Eventbezogener Rabatt in %"
+    },
+    "SaleDateStart_EventSale": {
+      "Value": "01.11.",
+      "DisplayName": "Startdatum eventbezogener Rabatt (Format 01.01.)"
+    },
+    "SaleDateEnd_EventSale": {
+      "Value": "31.03.",
+      "DisplayName": "Enddatum eventbezogener Rabatt (Format 01.01.)"
+    }
+  },
+  "Mehrwertsteuer": {
+    "ValuedAddedTax": {
+      "Value": 19,
+      "DisplayName": "Umsatzsteuer in %"
     }
   }
 }
