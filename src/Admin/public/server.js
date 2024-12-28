@@ -57,7 +57,7 @@ app.get(fullPath("/config"), authenticate, (req, res) => {
 
 app.get(fullPath("/api/config"), authenticate, (req, res) => {
   fs.readFile(
-    path.join(__dirname, "config", "config.json"),
+    path.join(__dirname, "..", "config", "config.json"),
     "utf8",
     (err, data) => {
       if (err) {
@@ -76,7 +76,7 @@ app.get(fullPath("/api/config"), authenticate, (req, res) => {
 app.post(fullPath("/save-config"), authenticate, (req, res) => {
   const updatedConfig = req.body;
 
-  fs.readFile(path.join(__dirname, "config", "config.json"), "utf8", (err, data) => {
+  fs.readFile(path.join(__dirname, "..", "config", "config.json"), "utf8", (err, data) => {
     if (err) {
       return res.status(500).json({ error: "Error reading config file" });
     }
@@ -93,7 +93,7 @@ app.post(fullPath("/save-config"), authenticate, (req, res) => {
         });
       });
 
-      fs.writeFile(path.join(__dirname, "config", "config.json"), JSON.stringify(currentConfig, null, 2), (err) => {
+      fs.writeFile(path.join(__dirname, "..", "config", "config.json"), JSON.stringify(currentConfig, null, 2), (err) => {
         if (err) {
           return res.status(500).json({ error: "Error saving config file" });
         }

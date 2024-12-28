@@ -2,9 +2,9 @@ services:
 
   # CalculationService
   pricecalculator:
-    #build:
-    #  context: ./src/PriceCalculator
-    image: ghcr.io/marekvonrogall/cmlpc/cmlpc:latest
+    build:
+      context: ./src/PriceCalculator
+    #image: ghcr.io/marekvonrogall/cmlpc/cmlpc:latest
     ports:
       - "8081:80"
     volumes:
@@ -12,9 +12,9 @@ services:
 
   # NGINX API Gateway
   nginx:
-    #build:
-    #  context: ./src/nginx
-    image: ghcr.io/marekvonrogall/cmlpc/cmlnginx:latest
+    build:
+      context: ./src/nginx
+    #image: ghcr.io/marekvonrogall/cmlpc/cmlnginx:latest
     ports:
       - "8080:80"
     depends_on:
@@ -30,7 +30,7 @@ services:
   # Admin Panel
   admin:
     build:
-      context: ./src/Admin
+     context: ./src/Admin
     #image: ghcr.io/marekvonrogall/cmlpc/cmladmin:latest
     ports:
       - "8083:8083"

@@ -1,116 +1,116 @@
 {
-  "Grundpreise:": {
-    "priceBase_3hours": {
-      "value": 1800,
-      "displayName": "Preis für 3 Stunden"
+  "Grundpreise": {
+    "PriceBase_3hours": {
+      "Value": 1800,
+      "DisplayName": "Preis für 3 Stunden"
     },
-    "priceBase_5hours": {
-      "value": 2500,
-      "displayName": "Preis für 5 Stunden"
+    "PriceBase_5hours": {
+      "Value": 2500,
+      "DisplayName": "Preis für 5 Stunden"
     }
   },
-  "Kilometerpreise:": {
-    "pricePerKm_Bus": {
-      "value": 2,
-      "displayName": "Preis pro Kilometer (Cliff)"
+  "Kilometerpreise": {
+    "PricePerKm_Bus": {
+      "Value": 2,
+      "DisplayName": "Preis pro Kilometer (Cliff)"
     },
-    "pricePerKm_Disco": {
-      "value": 1.3,
-      "displayName": "Preis pro Kilometer (Kugel)"
+    "PricePerKm_Disco": {
+      "Value": 1.3,
+      "DisplayName": "Preis pro Kilometer (Kugel)"
     },
-    "pricePerKm_Kaleido": {
-      "value": 1.3,
-      "displayName": "Preis pro Kilometer (Kaleidoskop)"
+    "PricePerKm_Kaleido": {
+      "Value": 1.3,
+      "DisplayName": "Preis pro Kilometer (Kaleidoskop)"
     }
   },
   "Mitarbeiterkosten": {
-    "pricePerHour_1Employee": {
-      "value": 270,
-      "displayName": "Preis pro Stunde (1 Mitarbeiter)"
+    "PricePerHour_1Employee": {
+      "Value": 270,
+      "DisplayName": "Preis pro Stunde (1 Mitarbeiter)"
     },
-    "pricePerHour_2Employees": {
-      "value": 200,
-      "displayName": "Preis pro Stunde (2 Mitarbeiter)"
+    "PricePerHour_2Employees": {
+      "Value": 200,
+      "DisplayName": "Preis pro Stunde (2 Mitarbeiter)"
     },
-    "pricePerHour_Standby": {
-      "value": 150,
-      "displayName": "Preis pro Stunde (Standby)"
+    "PricePerHour_Standby": {
+      "Value": 150,
+      "DisplayName": "Preis pro Stunde (Standby)"
     },
-    "pricePerNight_Hotel1Employee": {
-      "value": 125,
-      "displayName": "Preis pro Nacht (1 Mitarbeiter)"
+    "PricePerNight_Hotel1Employee": {
+      "Value": 125,
+      "DisplayName": "Preis pro Nacht (1 Mitarbeiter)"
     },
-    "pricePerNight_Hotel2Employees": {
-      "value": 250,
-      "displayName": "Preis pro Nacht (2 Mitarbeiter)"
+    "PricePerNight_Hotel2Employees": {
+      "Value": 250,
+      "DisplayName": "Preis pro Nacht (2 Mitarbeiter)"
     }
   },
   "Featurekosten": {
-    "pricePerHour_FeatureXXLPrint": {
-      "value": 70,
-      "displayName": "Preis pro Stunde (Feature XXL Print)"
+    "PricePerHour_FeatureXXLPrint": {
+      "Value": 70,
+      "DisplayName": "Preis pro Stunde (Feature XXL Print)"
     }
   },
   "Entfernungseinstellungen": {
-    "routeCalculation_MaxRadiusFor3HourEvent": {
-      "value": 200,
-      "displayName": "Maximale Entfernung für 3-Stunden-Event (km)"
+    "RouteCalculation_MaxRadiusFor3HourEvent": {
+      "Value": 200,
+      "DisplayName": "Maximale Entfernung für 3-Stunden-Event (km)"
     },
-    "routeCalculation_MinKmForAdditionalHotelCost": {
-      "value": 150,
-      "displayName": "Inkrafttreten der Hotelkosten ab (km)"
+    "RouteCalculation_MinKmForAdditionalHotelCost": {
+      "Value": 150,
+      "DisplayName": "Inkrafttreten der Hotelkosten ab (km)"
     }
   },
   "Routen-Kalkulierung": {
-    "routeCalculation_StartPointLat": {
-      "value": 50.697864,
-      "displayName": "Startpunkt (Halle) Breitengrad"
+    "RouteCalculation_StartPointLat": {
+      "Value": 50.697864,
+      "DisplayName": "Startpunkt (Halle) Breitengrad"
     },
-    "routeCalculation_StartPointLon": {
-      "value": 7.018537,
-      "displayName": "Startpunkt (Halle) Längengrad"
+    "RouteCalculation_StartPointLon": {
+      "Value": 7.018537,
+      "DisplayName": "Startpunkt (Halle) Längengrad"
     },
-    "routeCalculation_AdditionalKmInPercent": {
-      "value": 7,
-      "displayName": "Kilometeraufschlag in Prozent"
+    "RouteCalculation_AdditionalKmInPercent": {
+      "Value": 7,
+      "DisplayName": "Kilometeraufschlag in Prozent"
     }
   },
   "Aufbauzeiten": {
-    "timeInHours_AufbauBus": {
-      "value": 1.5,
-      "displayName": "Aufbauzeit Cliff (in Stunden)"
+    "TimeInHours_AufbauBus": {
+      "Value": 1.5,
+      "DisplayName": "Aufbauzeit Cliff (in Stunden)"
     },
-    "timeInHours_AufbauDisco": {
-      "value": 3,
-      "displayName": "Aufbauzeit Kugel (in Stunden)"
+    "TimeInHours_AufbauDisco": {
+      "Value": 3,
+      "DisplayName": "Aufbauzeit Kugel (in Stunden)"
     },
-    "timeInHours_AufbauKaleido": {
-      "value": 2,
-      "displayName": "Aufbauzeit Kaleidoskop (in Stunden)"
+    "TimeInHours_AufbauKaleido": {
+      "Value": 2,
+      "DisplayName": "Aufbauzeit Kaleidoskop (in Stunden)"
     }
   },
   "Abbauzeiten": {
-    "timeInHours_AbbauBus": {
-      "value": 1,
-      "displayName": "Abbauzeit Cliff (in Stunden)"
+    "TimeInHours_AbbauBus": {
+      "Value": 1,
+      "DisplayName": "Abbauzeit Cliff (in Stunden)"
     },
-    "timeInHours_AbbauDisco": {
-      "value": 2,
-      "displayName": "Abbauzeit Kugel (in Stunden)"
+    "TimeInHours_AbbauDisco": {
+      "Value": 2,
+      "DisplayName": "Abbauzeit Kugel (in Stunden)"
     },
-    "timeInHours_AbbauKaleido": {
-      "value": 1.5,
-      "displayName": "Abbauzeit Kaleidoskop (in Stunden)"
+    "TimeInHours_AbbauKaleido": {
+      "Value": 1.5,
+      "DisplayName": "Abbauzeit Kaleidoskop (in Stunden)"
     }
   },
   "Rabatte": {
-    "saleAmountInPercent_RightNow": {
-      "value": 0,
-      "displayName": "Rabatt (Aktuell)"
+    "SaleAmountInPercent_RightNow": {
+      "Value": 0,
+      "DisplayName": "Rabatt (Aktuell)"
     },
-    "saleAmountInPercent_OffSeason": {
-      "value": 15,
-      "displayName": "Rabatt Nebensaison"
+    "SaleAmountInPercent_OffSeason": {
+      "Value": 15,
+      "DisplayName": "Rabatt Nebensaison"
     }
   }
 }

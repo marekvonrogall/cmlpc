@@ -5,7 +5,7 @@ WORKDIR /app
 RUN npm install express bcryptjs dotenv
 
 COPY ./public /app/public
-COPY ./config.json /app/public/config/config.json
+COPY ./config.json /app/config/config.json
 
 EXPOSE 8083
 

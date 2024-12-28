@@ -1,12 +1,16 @@
 name: CI/CD Pipeline
 
+
+#on:
+#  push:
+#    branches:
+#      - main
+#  pull_request:
+#    branches:
+#      - main
+
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 env:
   DOCKER_REGISTRY: ghcr.io
