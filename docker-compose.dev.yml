@@ -1,12 +1,8 @@
 services:
-
   # CalculationService
   pricecalculator:
     build:
       context: ./src/PriceCalculator
-    #image: ghcr.io/marekvonrogall/cmlpc/cmlpc:latest
-    ports:
-      - "8081:80"
     volumes:
       - shared-config:/app/config
 
@@ -14,7 +10,6 @@ services:
   nginx:
     build:
       context: ./src/nginx
-    #image: ghcr.io/marekvonrogall/cmlpc/cmlnginx:latest
     ports:
       - "8080:80"
     depends_on:
@@ -24,16 +19,11 @@ services:
   # OSRM (Open Source Routing Machine)
   osrm:
     image: ghcr.io/marekvonrogall/cmlpc/cmlosrm:latest
-    ports:
-      - "8082:5000"
 
   # Admin Panel
   admin:
     build:
-     context: ./src/Admin
-    #image: ghcr.io/marekvonrogall/cmlpc/cmladmin:latest
-    ports:
-      - "8083:8083"
+      context: ./src/Admin
     depends_on:
       - pricecalculator
     volumes:

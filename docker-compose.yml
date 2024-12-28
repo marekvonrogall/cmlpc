@@ -1,12 +1,9 @@
 services:
-
   # CalculationService
   pricecalculator:
     build:
       context: ./src/PriceCalculator
     image: ghcr.io/${IMAGE_NAME}/cmlpc:latest
-    ports:
-      - "8081:80"
     volumes:
       - shared-config:/app/config
 
@@ -26,16 +23,12 @@ services:
     build:
       context: ./src/OSRM
     image: ghcr.io/${IMAGE_NAME}/cmlosrm:latest
-    ports:
-      - "8082:5000"
 
   # ADMIN PANEL
   admin:
     build:
       context: ./src/Admin
     image: ghcr.io/${IMAGE_NAME}/cmladmin:latest
-    ports:
-      - "8083:8083"
     depends_on:
       - pricecalculator
     volumes:
