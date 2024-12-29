@@ -56,10 +56,10 @@ namespace PriceCalculator.Controllers
         }
 
         [HttpGet("calculateEventCosts")]
-        public async Task<IActionResult> CalculateEventCosts(string plzRouteEnd, string eventType, DateTime eventDate)
+        public async Task<IActionResult> CalculateEventCosts(string plzRouteEnd, string eventType, DateTime eventDate, string? additionalOptions)
         {
             var config = ReadConfig();
-            
+
             if (eventDate == default) return BadRequest("No event date specified.");
             if (eventDate < DateTime.Now) return BadRequest("Event date is in the past.");
 
@@ -121,7 +121,32 @@ namespace PriceCalculator.Controllers
                         return BadRequest("Invalid event duration.");
                 }
 
-                double totalCostWithoutDiscount = basePrice + travelCosts + hotelCosts;
+                var allAdditionalOptions = new List<object>();
+                double priceAdditionalOptions = 0;
+
+                if (!string.IsNullOrEmpty(additionalOptions))
+                {
+                    var options = additionalOptions.Split(',');
+                    foreach (var option in options)
+                    {
+                        switch (option)
+                        {
+                            case "XXL-Druck":
+                                double costXXLDruck = config.Optionen.PricePerHour_FeatureXXLPrint.Value * duration;
+                                priceAdditionalOptions += costXXLDruck;
+                                allAdditionalOptions.Add(new
+                                {
+                                    optionName = "XXL-Druck",
+                                    pricePerHour = config.Optionen.PricePerHour_FeatureXXLPrint.Value,
+                                    priceTotal = costXXLDruck
+                                });
+                                break;
+                            default: break; //Unknown feature, ignore
+                        }
+                    }
+                }
+
+                double totalCostWithoutDiscount = basePrice + travelCosts + hotelCosts + priceAdditionalOptions;
                 double totalCost = totalCostWithoutDiscount;
 
                 var discounts = new List<object>();
@@ -166,9 +191,10 @@ namespace PriceCalculator.Controllers
                     eventDuration = duration,
                     basePrice,
                     travelDistance = distanceInKm,
-                    travelDuration = distanceInKm /100 *1.5,
+                    travelDuration = (double)distanceInKm /100 *1.5,
                     travelCosts,
                     hotelCosts,
+                    additionalOptions = allAdditionalOptions,
                     totalCostWithoutDiscount,
                     totalCost,
                     discounts,
