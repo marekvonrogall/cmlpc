@@ -12,14 +12,17 @@ RUN sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /
 # DATASET: GERMANY
 RUN wget --no-check-certificate -O /data/germany-latest.osm.pbf https://download.geofabrik.de/europe/germany-latest.osm.pbf
 
-# CONVERT
-RUN osmconvert /data/germany-latest.osm.pbf -o=/data/germany-latest.osm
+# .o5m CONVERSION
+RUN osmconvert /data/germany-latest.osm.pbf -o=/data/germany-latest.o5m
+
+# FILTER FOR DRIVABLE ROADS
+RUN osmfilter /data/germany-latest.o5m --keep="highway=motorway =motorway_link =primary =primary_link =secondary =secondary_link =tertiary =tertiary_link =residential =unclassified =living_street =service" -o=/data/germany-drivable.osm
 
 # PREPROCESS
-RUN osrm-extract -p /opt/car.lua /data/germany-latest.osm && \
-    osrm-partition /data/germany-latest.osrm && \
-    osrm-customize /data/germany-latest.osrm
+RUN osrm-extract -p /opt/car.lua /data/germany-drivable.osm && \
+    osrm-partition /data/germany-drivable.osrm && \
+    osrm-customize /data/germany-drivable.osrm
 
 EXPOSE 5000
 
-CMD ["osrm-routed", "--algorithm", "mld", "/data/germany-latest.osrm"]
+CMD ["osrm-routed", "--algorithm", "mld", "/data/germany-drivable.osrm"]
