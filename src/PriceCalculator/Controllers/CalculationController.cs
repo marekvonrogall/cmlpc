@@ -71,9 +71,18 @@ namespace PriceCalculator.Controllers
         }
 
         [HttpGet("calculateEventCosts")]
-        public async Task<IActionResult> CalculateEventCosts(string plzRouteEnd, string eventType)
+        public async Task<IActionResult> CalculateEventCosts(string plzRouteEnd, string eventType, DateTime eventDate)
         {
             var config = ReadConfig();
+            if (eventDate == default) return BadRequest("No event date specified.");
+            if (eventDate < DateTime.Now) return BadRequest("Event date is in the past.");
+
+            int eventDayOfYear = DateService.GetDayOfYear(eventDate);
+
+            int saleDateStartBookingSaleDay = DateService.GetDayOfYear(config.Rabatte.SaleDateStart_BookingSale.Value);
+            int saleDateEndBookingSaleDay = DateService.GetDayOfYear(config.Rabatte.SaleDateEnd_BookingSale.Value);
+            int saleDateStartEventSaleDay = DateService.GetDayOfYear(config.Rabatte.SaleDateStart_EventSale.Value);
+            int saleDateEndEventSaleDay = DateService.GetDayOfYear(config.Rabatte.SaleDateEnd_EventSale.Value);
 
             double kilometerCost;
             double hotelCosts = 0;
@@ -127,20 +136,57 @@ namespace PriceCalculator.Controllers
                         return BadRequest("Invalid event duration.");
                 }
 
-                var totalCost = basePrice + travelCosts + hotelCosts;
-                //var discount = totalCost * config.Rabatte.SaleAmountInPercent.Value;
+                double totalCostWithoutDiscount = basePrice + travelCosts + hotelCosts;
+                double totalCost = totalCostWithoutDiscount;
 
-                //totalCost -=
+                var discounts = new List<object>();
+
+                double eventBasedDiscount = 0;
+                if (DateService.IsDateBetween(eventDayOfYear, saleDateStartEventSaleDay, saleDateEndEventSaleDay)) //Eventdatum liegt im Rabattzeitraum
+                {
+                    eventBasedDiscount = totalCost / 100 * config.Rabatte.SaleAmountInPercent_EventSale.Value;
+                    discounts.Add(new
+                    {
+                        eventBasedDiscountName = config.Rabatte.SaleName_EventSale.Value,
+                        eventBasedDiscountStart = DateService.GetDateTimeWithYear(config.Rabatte.SaleDateStart_EventSale.Value, "start", eventDate),
+                        eventBasedDiscountEnd = DateService.GetDateTimeWithYear(config.Rabatte.SaleDateEnd_EventSale.Value, "end", eventDate),
+                        totalCostBeforeDiscount = totalCost,
+                        totalCostAfterDiscount = totalCost - eventBasedDiscount,
+                        eventBasedDiscountPercent = config.Rabatte.SaleAmountInPercent_EventSale.Value,
+                        eventBasedDiscount
+                    });
+                }
+
+                totalCost -= eventBasedDiscount;
+
+                double bookingBasedDiscount = 0;
+                if (DateService.IsDateBetween(eventDayOfYear, saleDateStartBookingSaleDay, saleDateEndBookingSaleDay)) //Buchung liegt im Rabattzeitraum
+                {
+                     bookingBasedDiscount = totalCost / 100 * config.Rabatte.SaleAmountInPercent_BookingSale.Value;
+                     discounts.Add(new
+                     {
+                         bookingBasedDiscountName = config.Rabatte.SaleName_BookingSale.Value,
+                         bookingBasedDiscountEnd = DateService.GetDateTimeWithYear(config.Rabatte.SaleDateEnd_BookingSale.Value, "end", eventDate), //Buchungen bis DATUM erhalten Rabatt
+                         totalCostBeforeDiscount = totalCost,
+                         totalCostAfterDiscount = totalCost - bookingBasedDiscount,
+                         bookingBasedDiscountPercent = config.Rabatte.SaleAmountInPercent_BookingSale.Value,
+                         bookingBasedDiscount
+                     });
+                }
+
+                totalCost -= bookingBasedDiscount;
 
                 priceDetails.Add(new
                 {
                     eventDuration = duration,
                     basePrice,
-                    travelDistance = distanceInKm, //Hin- und Rückfahrt
+                    travelDistance = distanceInKm,
                     travelDuration = distanceInKm /100 *1.5,
                     travelCosts,
                     hotelCosts,
+                    totalCostWithoutDiscount,
                     totalCost,
+                    discounts,
                     vat = totalCost /100 *config.Mehrwertsteuer.ValuedAddedTax.Value
                 });
             }

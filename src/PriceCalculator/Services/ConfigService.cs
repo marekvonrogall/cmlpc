@@ -30,37 +30,6 @@ namespace PriceCalculator.Services
         public string DisplayName { get; set; }
     }
 
-    public class DateContent
-    {
-        [JsonConverter(typeof(CustomDateConverter))]
-        public DateTime Value { get; set; }
-        public string DisplayName { get; set; }
-    }
-
-    public class CustomDateConverter : JsonConverter<DateTime>
-    {
-        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        {
-            string dateString = reader.GetString();
-            if (DateTime.TryParseExact(
-                dateString + "1999", //PLATZHALTER
-                "dd.MM.yyyy",
-                System.Globalization.CultureInfo.InvariantCulture,
-                System.Globalization.DateTimeStyles.None,
-                out DateTime result))
-            {
-                return result;
-            }
-
-            throw new JsonException($"Invalid date format: {dateString}");
-        }
-        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
-        {
-            string formattedDate = value.ToString("dd.MM.");
-            writer.WriteStringValue(formattedDate);
-        }
-    }
-
     public class Grundpreise
     {
         public NumericContent PriceBase_3hours { get; set; }
@@ -116,13 +85,13 @@ namespace PriceCalculator.Services
     {
         public StringContent SaleName_BookingSale { get; set; }
         public NumericContent SaleAmountInPercent_BookingSale { get; set; }
-        public DateContent SaleDateStart_BookingSale { get; set; }
-        public DateContent SaleDateEnd_BookingSale { get; set; }
+        public StringContent SaleDateStart_BookingSale { get; set; }
+        public StringContent SaleDateEnd_BookingSale { get; set; }
         
         public StringContent SaleName_EventSale { get; set; }
         public NumericContent SaleAmountInPercent_EventSale { get; set; }
-        public DateContent SaleDateStart_EventSale { get; set; }
-        public DateContent SaleDateEnd_EventSale { get; set; }
+        public StringContent SaleDateStart_EventSale { get; set; }
+        public StringContent SaleDateEnd_EventSale { get; set; }
     }
 
     public class Mehrwertsteuer
