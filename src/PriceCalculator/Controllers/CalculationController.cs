@@ -78,6 +78,7 @@ namespace PriceCalculator.Controllers
             if (eventDate < DateTime.Now) return BadRequest("Event date is in the past.");
 
             int eventDayOfYear = DateService.GetDayOfYear(eventDate);
+            int currentDayOfYear = DateService.GetDayOfYear(DateTime.Now);
 
             int saleDateStartBookingSaleDay = DateService.GetDayOfYear(config.Rabatte.SaleDateStart_BookingSale.Value);
             int saleDateEndBookingSaleDay = DateService.GetDayOfYear(config.Rabatte.SaleDateEnd_BookingSale.Value);
@@ -160,7 +161,7 @@ namespace PriceCalculator.Controllers
                 totalCost -= eventBasedDiscount;
 
                 double bookingBasedDiscount = 0;
-                if (DateService.IsDateBetween(eventDayOfYear, saleDateStartBookingSaleDay, saleDateEndBookingSaleDay)) //Buchung liegt im Rabattzeitraum
+                if (DateService.IsDateBetween(currentDayOfYear, saleDateStartBookingSaleDay, saleDateEndBookingSaleDay)) //Buchung liegt im Rabattzeitraum
                 {
                      bookingBasedDiscount = totalCost / 100 * config.Rabatte.SaleAmountInPercent_BookingSale.Value;
                      discounts.Add(new
