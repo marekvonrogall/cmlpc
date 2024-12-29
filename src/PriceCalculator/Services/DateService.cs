@@ -1,47 +1,43 @@
-﻿namespace PriceCalculator.Services
+﻿using System.Globalization;
+
+namespace PriceCalculator.Services
 {
     public class DateService
     {
-        // convert date to int (1-366).
-        public static int GetDayOfYear(object date)
-        {
-            DateTime adjustedDate;
-            if (date is DateTime dateTime)
-            {
-                adjustedDate = new DateTime(2000, dateTime.Month, dateTime.Day);
-            }
-            else if (date is string dateStr)
-            {
-                dateStr = dateStr.Trim().TrimEnd('.');
-                string fullDateStr = dateStr + ".2000";
-                adjustedDate = DateTime.ParseExact(fullDateStr, "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
-            }
-            else
-            {
-                throw new Exception("Invalid date format. Expected DateTime or string in dd.MM format.");
-            }
-            return adjustedDate.DayOfYear;
-        }
+        private static int _placeHolderLeapYear = 2000; //Placeholder year (leap year)
+        private static string _dateFormat = "dd.MM.yyyy";
 
-        public static bool IsDateBetween(int targetDay, int startDay, int endDay)
+        public static bool IsDateBetween(DateTime targetDate, string startDate, string endDate)
         {
-            if (startDay <= endDay)
+            startDate = startDate.Trim().TrimEnd('.');
+            endDate = endDate.Trim().TrimEnd('.');
+
+            DateTime start;
+            DateTime end;
+            targetDate = new DateTime(_placeHolderLeapYear, targetDate.Month, targetDate.Day);
+            DateTime.TryParseExact($"{startDate}.{_placeHolderLeapYear}", _dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out start);
+            DateTime.TryParseExact($"{endDate}.{_placeHolderLeapYear}", _dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out end);
+
+            if (start > end)
             {
-                // No wrap
-                return targetDay >= startDay && targetDay <= endDay;
+                if (start < targetDate)
+                {
+                    end = start.AddYears(1);
+                }
+                else start = start.AddYears(-1);
             }
-            else
-            {
-                // Wrap
-                return targetDay >= startDay || targetDay <= endDay;
-            }
+
+            return targetDate >= start && targetDate <= end;
         }
 
         public static DateTime GetDateTimeWithYear(string date, string type, DateTime eventDate)
         {
+            //If this method gets called, we must already be sure that the event date is in range of the sale date (start-event-end)
+
             date = date.Trim().TrimEnd('.');
-            string fullDateStr = date + $".{eventDate.Year}";
-            DateTime adjustedDate = DateTime.ParseExact(fullDateStr, "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
+
+            DateTime adjustedDate;
+            DateTime.TryParseExact($"{date}.{_placeHolderLeapYear}", _dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out adjustedDate);
 
             if (type == "end")
             {

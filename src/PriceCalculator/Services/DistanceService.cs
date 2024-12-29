@@ -11,11 +11,8 @@ namespace PriceCalculator.Services
             _httpClient = httpClient;
         }
 
-        public async Task<double?> GetDistanceInKmAsync(string endLat, string endLon)
+        public async Task<double?> GetDistanceInKmAsync(string startLat, string startLon, string endLat, string endLon)
         {
-            string startLat = "50.697864";
-            string startLon = "7.018537";
-
             var url = $"http://osrm:5000/route/v1/driving/{startLon},{startLat};{endLon},{endLat}?overview=false";
 
             try
@@ -30,7 +27,7 @@ namespace PriceCalculator.Services
 
                 return distance / 1000; // Convert to kilometers
             }
-            catch
+            catch   
             {
                 return null; // Return null if the distance couldn't be retrieved
             }

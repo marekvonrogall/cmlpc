@@ -49,7 +49,7 @@
       "DisplayName": "Übernachtungspauschale berechnen ab (Einfache Strecke in km)"
     }
   },
-  "Routen-Kalkulierung": {
+  "Routenkalkulierung": {
     "RouteCalculation_StartPointLat": {
       "Value": 50.697864,
       "DisplayName": "Startpunkt (Halle) Breitengrad"

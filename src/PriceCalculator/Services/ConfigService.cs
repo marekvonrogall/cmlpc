@@ -1,6 +1,3 @@
-using System.Text.Json.Serialization;
-using System.Text.Json;
-
 namespace PriceCalculator.Services
 {
     public class ConfigService
@@ -10,7 +7,7 @@ namespace PriceCalculator.Services
         public Mitarbeiterkosten Mitarbeiterkosten { get; set; }
         public Optionen Optionen { get; set; }
         public Entfernungseinstellungen Entfernungseinstellungen { get; set; }
-        public RoutenKalkulierung RoutenKalkulierung { get; set; }
+        public Routenkalkulierung Routenkalkulierung { get; set; }
         public Aufbauzeiten Aufbauzeiten { get; set; }
         public Abbauzeiten Abbauzeiten { get; set; }
         public Rabatte Rabatte { get; set; }
@@ -60,7 +57,7 @@ namespace PriceCalculator.Services
         public NumericContent RouteCalculation_MinKmForAdditionalHotelCost { get; set; }
     }
 
-    public class RoutenKalkulierung
+    public class Routenkalkulierung
     {
         public NumericContent RouteCalculation_StartPointLat { get; set; }
         public NumericContent RouteCalculation_StartPointLon { get; set; }

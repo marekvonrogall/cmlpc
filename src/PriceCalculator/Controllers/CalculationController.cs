@@ -19,16 +19,16 @@ namespace PriceCalculator.Controllers
             _env = env;
         }
 
-        public async Task<int?> getDistance(string plzRouteEnd)
+        public async Task<int> GetDistance(ConfigService config, string plzRouteEnd)
         {
             var endCoords = _geocodeService.GetCoordinates(plzRouteEnd);
 
-            if (endCoords == null)return null;
+            if (endCoords == null) return 0;
 
-            var distanceInKm = await _distanceService.GetDistanceInKmAsync(endCoords.Value.lat.ToString(), endCoords.Value.lon.ToString());
+            var distanceInKm = await _distanceService.GetDistanceInKmAsync(config.Routenkalkulierung.RouteCalculation_StartPointLat.Value.ToString(), config.Routenkalkulierung.RouteCalculation_StartPointLon.Value.ToString(), endCoords.Value.lat.ToString(), endCoords.Value.lon.ToString());
 
-            if (distanceInKm == null) return null;
-
+            if (distanceInKm == null) return 0;
+            
             return (int)Math.Round(distanceInKm.Value);
         }
 
@@ -45,23 +45,8 @@ namespace PriceCalculator.Controllers
             return JsonSerializer.Deserialize<ConfigService>(configJson);
         }
 
-        [HttpGet("getPossibleEventDurations")]
-        public async Task<IActionResult> GetPossibleEventDurations(string plzRouteEnd)
+        private int[] CalculatePossibleEventDurations(ConfigService config, int distanceInKm)
         {
-            var result = await CalculatePossibleEventDurations(plzRouteEnd);
-
-            if (result[0] == 0) return BadRequest("Invalid postal code. Is OSRM running?");
-
-            return Ok(new { PossibleEventDurationsInHours = result });
-        }
-
-        private async Task<int[]> CalculatePossibleEventDurations(string plzRouteEnd)
-        {
-            var distanceInKm = await getDistance(plzRouteEnd);
-            if (distanceInKm == null) return [0];
-
-            var config = ReadConfig();
-
             if (distanceInKm < config.Entfernungseinstellungen.RouteCalculation_MaxRadiusFor3HourEvent.Value)
             {
                 return [3, 5, 8];
@@ -74,16 +59,14 @@ namespace PriceCalculator.Controllers
         public async Task<IActionResult> CalculateEventCosts(string plzRouteEnd, string eventType, DateTime eventDate)
         {
             var config = ReadConfig();
+            
             if (eventDate == default) return BadRequest("No event date specified.");
             if (eventDate < DateTime.Now) return BadRequest("Event date is in the past.");
 
-            int eventDayOfYear = DateService.GetDayOfYear(eventDate);
-            int currentDayOfYear = DateService.GetDayOfYear(DateTime.Now);
-
-            int saleDateStartBookingSaleDay = DateService.GetDayOfYear(config.Rabatte.SaleDateStart_BookingSale.Value);
-            int saleDateEndBookingSaleDay = DateService.GetDayOfYear(config.Rabatte.SaleDateEnd_BookingSale.Value);
-            int saleDateStartEventSaleDay = DateService.GetDayOfYear(config.Rabatte.SaleDateStart_EventSale.Value);
-            int saleDateEndEventSaleDay = DateService.GetDayOfYear(config.Rabatte.SaleDateEnd_EventSale.Value);
+            string saleDateStartBookingSale = config.Rabatte.SaleDateStart_BookingSale.Value;
+            string saleDateEndBookingSale = config.Rabatte.SaleDateEnd_BookingSale.Value;
+            string saleDateStartEventSale = config.Rabatte.SaleDateStart_EventSale.Value;
+            string saleDateEndEventSale = config.Rabatte.SaleDateEnd_EventSale.Value;
 
             double kilometerCost;
             double hotelCosts = 0;
@@ -103,10 +86,10 @@ namespace PriceCalculator.Controllers
                     return BadRequest("Invalid event type.");
             }
 
-            var distanceInKm = await getDistance(plzRouteEnd);
-            if (distanceInKm == null) return BadRequest("Invalid postal code. Is OSRM running?");
+            int distanceInKm = await GetDistance(config, plzRouteEnd);
+            if (distanceInKm == 0) return BadRequest("Invalid postal code. Is OSRM running?");
 
-            var possibleEventDurations = await CalculatePossibleEventDurations(plzRouteEnd);
+            var possibleEventDurations = CalculatePossibleEventDurations(config, distanceInKm);
 
             if (distanceInKm >= config.Entfernungseinstellungen.RouteCalculation_MinKmForAdditionalHotelCost.Value)
             {
@@ -114,8 +97,9 @@ namespace PriceCalculator.Controllers
             }
 
             distanceInKm *= 2; // Hin- und Rückfahrt
-            double travelCosts = kilometerCost * distanceInKm.Value;
-            travelCosts = Math.Round(travelCosts / 10) * 10; //Auf 10€ runden
+            distanceInKm = (int)(distanceInKm * (1 + config.Routenkalkulierung.RouteCalculation_AdditionalKmInPercent.Value / 100)); // Kilometeraufschlag
+            double travelCosts = distanceInKm * kilometerCost;
+            //travelCosts = Math.Round(travelCosts / 10) * 10; //Auf 10€ runden
 
             var priceDetails = new List<object>();
 
@@ -143,7 +127,7 @@ namespace PriceCalculator.Controllers
                 var discounts = new List<object>();
 
                 double eventBasedDiscount = 0;
-                if (DateService.IsDateBetween(eventDayOfYear, saleDateStartEventSaleDay, saleDateEndEventSaleDay)) //Eventdatum liegt im Rabattzeitraum
+                if (DateService.IsDateBetween(eventDate, saleDateStartEventSale, saleDateEndEventSale)) //Eventdatum liegt im Rabattzeitraum
                 {
                     eventBasedDiscount = totalCost / 100 * config.Rabatte.SaleAmountInPercent_EventSale.Value;
                     discounts.Add(new
@@ -161,7 +145,7 @@ namespace PriceCalculator.Controllers
                 totalCost -= eventBasedDiscount;
 
                 double bookingBasedDiscount = 0;
-                if (DateService.IsDateBetween(currentDayOfYear, saleDateStartBookingSaleDay, saleDateEndBookingSaleDay)) //Buchung liegt im Rabattzeitraum
+                if (DateService.IsDateBetween(DateTime.Now, saleDateStartBookingSale, saleDateEndBookingSale)) //Buchung liegt im Rabattzeitraum
                 {
                      bookingBasedDiscount = totalCost / 100 * config.Rabatte.SaleAmountInPercent_BookingSale.Value;
                      discounts.Add(new
