@@ -1,4 +1,3 @@
-using PriceCalculator;
 using PriceCalculator.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,9 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
-builder.Services.AddSingleton(new DistanceService(new HttpClient()));
-builder.Services.AddSingleton(new GeocodeService("/app/data/plz_geocoord.csv"));
-//https://github.com/WZBSocialScienceCenter/plz_geocoord
+builder.Services.AddSingleton(new DistanceService(new HttpClient(), new GeocodeService("/app/data/plz_geocoord.csv")));
+//plz_geocoord.csv from: https://github.com/WZBSocialScienceCenter/plz_geocoord
 
 builder.Services.AddCors(options =>
 {
